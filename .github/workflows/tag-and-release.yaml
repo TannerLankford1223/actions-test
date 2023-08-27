@@ -15,12 +15,13 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v2
 
-      - name: Install Dependencies
-        run: npm install
-
       - name: Tag on NPM Package Version Change
+        id: tag_version
         uses: neverendingqs/gh-action-tag-on-npm-version@master
 
-      - name: Use the Tag Variable in Another Step
-        run: echo "The created tag is ${{ env.TAG }}"
+      - name: Set Tag Output
+        id: set_tag_output
+        run: echo "::set-output name=tag::${{ steps.tag_version.outputs.TAG }}"
 
+      - name: Use the Tag Variable in Another Step
+        run: echo "The created tag is ${{ steps.set_tag_output.outputs.tag }}"
