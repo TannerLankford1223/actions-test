@@ -20,7 +20,7 @@ jobs:
       
       - name: Set Tag Output
         id: latest-tag
-        run: echo "{tag}={$(git describe --tags --abbrev=0)}" >> $GITHUB_OUTPUT
+        run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Use the Tag Variable in Another Step
         run: echo "The created tag is ${{ steps.latest-tag.outputs.tag }}"
