@@ -1,0 +1,13 @@
+name: Test Release Trigger
+
+on:
+  release:
+    types: [created]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Check Release Trigger
+        run: echo "The release was created and triggered this test workflow."

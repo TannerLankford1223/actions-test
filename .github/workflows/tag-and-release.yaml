@@ -25,3 +25,22 @@ jobs:
 
       - name: Use the Tag Variable in Another Step
         run: echo "The created tag is ${{ steps.latest-tag.outputs.tag }}"
+
+      - name: Create Release
+        uses: "actions/github-script@v6"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            try {
+              const response = await github.rest.repos.createRelease({
+                draft: false,
+                generate_release_notes: false,
+                owner: context.repo.owner,
+                prerelease: false,
+                repo: context.repo.repo,
+                tag_name: ${{ steps.latest-tag.outputs.tag }},
+              });
+
+            } catch (error) {
+              core.setFailed(error.message);
+            }
