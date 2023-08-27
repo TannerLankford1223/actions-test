@@ -20,16 +20,14 @@ jobs:
     runs-on: ubuntu-latest
     steps: 
       - uses: actions/checkout@v3
-      - id: latest-tag
-        run: |
-          TAG_VALUE=$(git describe --tags --abbrev=0)
-          echo "tag=$TAG_VALUE" >> $GITHUB_ENV
+      - run: |
+          echo "LATEST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
       - uses: "actions/github-script@v6"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             try {
-              const tag = '${{ steps.latest-tag.outputs.tag }}';
+              const tag = '$LATEST_TAG';
               const response = await github.rest.repos.createRelease({
                 draft: false,
                 generate_release_notes: false,
