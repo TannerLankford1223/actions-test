@@ -24,10 +24,10 @@ jobs:
           echo "LATEST_TAG=$(git describe --tags --abbrev=0)" >> $GITHUB_ENV
       - uses: "actions/github-script@v6"
         with:
-          github-token: process.env.LATEST_TAG
+          github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             try {
-              const tag = '${{ github.env.LATEST_TAG }}';
+              const tag = process.env.LATEST_TAG;
               const response = await github.rest.repos.createRelease({
                 draft: false,
                 generate_release_notes: false,
