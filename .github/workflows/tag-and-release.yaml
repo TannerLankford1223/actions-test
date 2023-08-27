@@ -27,7 +27,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             try {
-              const tag = '$LATEST_TAG';
+              const tag = '${{ github.env.LATEST_TAG }}';
               const response = await github.rest.repos.createRelease({
                 draft: false,
                 generate_release_notes: false,
