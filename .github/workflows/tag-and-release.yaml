@@ -1,4 +1,4 @@
-name: Tag new npm package and create release
+name: Create GitHub Release and Publish to GPR
 
 on:
   push:
@@ -8,24 +8,19 @@ on:
         - package.json
 
 jobs:
-  tag-npm-release:
-    name: Tag new npm package releases
+  tag-and-release:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: neverendingqs/gh-action-tag-on-npm-version@master
+      - name: Checkout Repository
+        uses: actions/checkout@v2
 
-  publish-gh-release:
-    needs: tag-npm-release
-    runs-on: ubuntu-latest
-    steps: 
-      - name: Create Repository
-        uses: actions/checkout@v3
+      - name: Tag on NPM Package Version Change
+        id: tag_version
+        uses: neverendingqs/gh-action-tag-on-npm-version@master
 
-      - name: Get the Latest Tag
+      - name: Set Tag Output
         id: latest-tag
-        run: |
-          echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
+        run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
 
       - name: Create GitHub Release
         uses: "actions/github-script@v6"
@@ -48,7 +43,7 @@ jobs:
             }
 
   publish-gpr:
-    needs: publish-gh-release
+    needs: tag-and-release
     runs-on: ubuntu-latest
     permissions:
       packages: write
