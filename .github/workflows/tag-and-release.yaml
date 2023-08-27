@@ -8,25 +8,21 @@ on:
         - package.json
 
 jobs:
-  tag-and-release:
+  tag-npm-release:
+    name: Tag new npm package releases
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: neverendingqs/gh-action-tag-on-npm-version@master
 
-      - name: Tag on NPM Package Version Change
-        id: tag_version
-        uses: neverendingqs/gh-action-tag-on-npm-version@master
-      
-      - name: Set Tag Output
-        id: latest-tag
+  publish-gh-release:
+    needs: tag-npm-release
+    runs-on: ubuntu-latest
+    steps: 
+      - uses: actions/checkout@v3
+      - id: latest-tag
         run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
-
-      - name: Use the Tag Variable in Another Step
-        run: echo "The created tag is ${{ steps.latest-tag.outputs.tag }}"
-
-      - name: Create Release
-        uses: "actions/github-script@v6"
+      - uses: "actions/github-script@v6"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
@@ -44,7 +40,28 @@ jobs:
             } catch (error) {
               core.setFailed(error.message);
             }
+
+  publish-gpr:
+    needs: publish-gh-release
+    runs-on: ubuntu-latest
+    permissions:
+      packages: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+      #     registry-url: https://npm.pkg.github.com/
+      # - run: npm ci
+      # - run: npm publish
+      #   env:
+      #     NODE_AUTH_TOKEN: ${{secrets.GITHUB_TOKEN}}
+      - run: echo "The release was created and triggered this test workflow."
+
+    
+
             
-      - name: Check Release Trigger
-        run: echo "The release was created and triggered this test workflow."
+
+            
         
