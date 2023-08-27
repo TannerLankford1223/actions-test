@@ -32,13 +32,14 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           script: |
             try {
+              const tag = '${{ steps.latest-tag.outputs.tag }}';
               const response = await github.rest.repos.createRelease({
                 draft: false,
                 generate_release_notes: false,
                 owner: context.repo.owner,
                 prerelease: false,
                 repo: context.repo.repo,
-                tag_name: ${{ steps.latest-tag.outputs.tag }},
+                tag_name: tag,
               });
 
             } catch (error) {

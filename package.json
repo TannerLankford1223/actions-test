@@ -1,6 +1,6 @@
 {
   "name": "actions-test",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "description": "A repository for testing GitHub Actions before use",
   "main": "index.js",
   "scripts": {
