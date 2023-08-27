@@ -11,18 +11,15 @@ jobs:
   tag-and-release:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v2
+      - uses: actions/checkout@v2
 
-      - name: Tag on NPM Package Version Change
-        id: tag_version
+      - name: Create Tag from NPM Version
         uses: neverendingqs/gh-action-tag-on-npm-version@master
 
-      - name: Set Tag Output
-        id: latest-tag
+      - id: latest-tag
         run: echo "tag=$(git describe --tags --abbrev=0)" >> $GITHUB_OUTPUT
-
-      - name: Create GitHub Release
+      
+      - name: Create GitHub Release from Latest Tag
         uses: "actions/github-script@v6"
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
