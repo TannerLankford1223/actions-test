@@ -7,11 +7,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-        
       - name: Build and Push
-        uses: ./.github/workflows/reusable-workflows
+        uses: ./.github/workflows/reusable-workflows/build-and-push.yaml
         with:
           repository: TannerLankford1223/actions-test-service
           service_name: ${{ env.SERVICE_NAME }}
