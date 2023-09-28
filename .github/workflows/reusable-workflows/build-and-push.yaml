@@ -1,0 +1,30 @@
+name: Build & Send Versioned Image To Digital Ocean Repository
+
+on: 
+  workflow_call:
+    inputs:
+      repository:
+        description: 'GitHub repository of the service'
+        required: true
+        type: string
+      service-name:
+        description: 'Name of the service'
+        required: true
+        type: string
+
+jobs:
+  build_and_push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          repository: ${{ inputs.repository }}
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Get version from file
+        run: cat VERSION || echo '0.0.0'
+      
+
+      - name: Print SERVICE_NAME
+        run: echo "SERVICE_NAME is ${{ inputs.service-name }}"

@@ -1,0 +1,36 @@
+name: Stubbed Push versioned images for Piccadilly Connect to Digital Ocean Repository
+
+on: workflow_dispatch
+
+jobs:
+  push-test-service:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Build and Push
+        uses: ./.github/workflows/reusable-workflows
+        with:
+          repository: TannerLankford1223/actions-test-service
+          service_name: ${{ env.SERVICE_NAME }}
+
+  push-another-test-service:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+        with:
+          repository: TannerLankford1223/another-actions-test
+          token: ${{ secrets.GH_PAT }}
+
+      - name: Get version from file
+        run: cat VERSION || echo '0.0.0'
+
+      - name: Print SERVICE_NAME
+        run: echo "SERVICE_NAME is ${{ env.ANOTHER_TEST_SERVICE_NAME }}"
+    
+
+            
+
+            
+        
