@@ -3,14 +3,16 @@ name: Stubbed Push versioned images for Piccadilly Connect to Digital Ocean Repo
 on: workflow_dispatch
 
 jobs:
+  
   push-test-service:
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Use Reusable Workflow for Test Service
-        uses: ./.github/workflows/build-and-push.yaml@main
+        uses: ./.github/workflows/build-and-push/action.yaml@main
         with:
           repository: TannerLankford1223/actions-test-service
           service_name: ${{ env.SERVICE_NAME }}
