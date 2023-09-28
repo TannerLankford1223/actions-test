@@ -11,9 +11,11 @@ jobs:
         uses: actions/checkout@v2
         with:
           repository: TannerLankford1223/actions-test-service
+          token: ${{ secrets.GH_PAT }}
 
       - name: Get version from file
         run: cat VERSION || echo '0.0.0'
+  
     
 
             
