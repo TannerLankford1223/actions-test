@@ -10,7 +10,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Use Reusable Workflow for Test Service
-        uses: ./.github/workflows/reusable-workflows/build-and-push.yaml
+        uses: ./.github/workflows/build-and-push.yaml@main
         with:
           repository: TannerLankford1223/actions-test-service
           service_name: ${{ env.SERVICE_NAME }}
