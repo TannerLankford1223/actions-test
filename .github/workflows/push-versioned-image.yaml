@@ -16,9 +16,11 @@ jobs:
       - name: Get version from file
         run: cat VERSION || echo '0.0.0'
       
+      - name: Set SERVICE_NAME from repository
+        run: echo "SERVICE_NAME=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
+
       - name: Print SERVICE_NAME
-        run: |
-          echo "SERVICE_NAME is: ${{ env.SERVICE_NAME }}"
+        run: echo "SERVICE_NAME is ${{ env.SERVICE_NAME }}"
 
   push-another-test-service:
     runs-on: ubuntu-latest
@@ -33,9 +35,11 @@ jobs:
       - name: Get version from file
         run: cat VERSION || echo '0.0.0'
       
+      - name: Set SERVICE_NAME from repository
+        run: echo "SERVICE_NAME=${{ env.SERVICE_NAME }}" >> $GITHUB_ENV
+
       - name: Print SERVICE_NAME
-        run: |
-          echo "SERVICE_NAME is: ${{ env.SERVICE_NAME }}"
+        run: echo "SERVICE_NAME is ${{ env.SERVICE_NAME }}"
     
 
             
