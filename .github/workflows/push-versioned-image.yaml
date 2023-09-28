@@ -15,7 +15,10 @@ jobs:
 
       - name: Get version from file
         run: cat VERSION || echo '0.0.0'
-  
+      
+      - name: Print SERVICE_NAME
+        run: |
+          echo "SERVICE_NAME is: ${{ env.SERVICE_NAME }}"
     
 
             
